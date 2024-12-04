@@ -57,3 +57,10 @@ value
 $ iniparse section spacing readme.ini
 leading and trailing whitespace is removed
 ```
+
+## Installation
+```
+git clone https://github.com/jsilus/iniparse.git
+cd iniparse
+sudo make install
+```

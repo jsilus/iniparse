@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/env bash
 
 ini_section () {
     # section = $1
