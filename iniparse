@@ -1,0 +1,50 @@
+#!/bin/sh
+
+ini_section () {
+    # section = $1
+    # file = $2
+    sed -nr "/^\[$1\]\s*\$/ { n; :l s/(^\s*)|(\s*#.*\$)//g; /\w/ p; n; /^\[/ d; b l }" "$2"
+}
+
+ini_param () {
+    # section = $1
+    # parameter = $2
+    # file = $3
+    sed -nr "/^\[$1\]\s*\$/ { :pl n; :l s/$2=//; T pl; s/(^\s*)|(\s*#.*\$)//g; /\w/ p; n; /^\[/ d; b l }" "$3"
+}
+
+ini_list () {
+    # file = $1
+    sed -nr "s/^\[(.*)\]\s*\$/\1/; T; p" "$1" | awk '!seen[$0]++'
+}
+
+help () {
+    echo "iniparse: parse ini files"
+    echo "  Usage: iniparse section [section] [file]"
+    echo "         iniparse parameter [section] [parameter] [file]"
+    echo "         iniparse listsections [file]"
+}
+
+[ $# -eq 0 ] && help >&2 && exit 1
+case "$1" in
+    -h|--help|help)
+        help
+        ;;
+    s|section)
+        [ $# -ne 3 ] && help >&2 && exit 1
+        ini_section "$2" "$3"
+        ;;
+    p|param|parameter)
+        [ $# -ne 4 ] && help >&2 && exit 1
+        ini_param "$2" "$3" "$4"
+        ;;
+    ls|listsections)
+        [ $# -ne 2 ] && help >&2 && exit 1
+        ini_list "$2"
+        ;;
+    *)
+        help >&2
+        exit 1
+        ;;
+esac
+exit 0
