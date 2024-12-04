@@ -35,14 +35,20 @@ case "$1" in
         ;;
     s|section)
         [ $# -ne 3 ] && help >&2 && exit 1
+        [ ! -f "$3" ] && echo "'$3' does not exist" >&2 && exit 1
+        [ ! -r "$3" ] && echo "'$3' is not readable" >&2 && exit 1
         ini_section "$2" "$3"
         ;;
     p|param|parameter)
         [ $# -ne 4 ] && help >&2 && exit 1
+        [ ! -f "$4" ] && echo "'$4' does not exist" >&2 && exit 1
+        [ ! -r "$4" ] && echo "'$4' is not readable" >&2 && exit 1
         ini_param "$2" "$3" "$4"
         ;;
     ls|listsections)
         [ $# -ne 2 ] && help >&2 && exit 1
+        [ ! -f "$2" ] && echo "'$2' does not exist" >&2 && exit 1
+        [ ! -r "$2" ] && echo "'$2' is not readable" >&2 && exit 1
         ini_list "$2" | awk '!seen[$0]++'
         ;;
     *)
