@@ -29,31 +29,31 @@ sections do not have to be continuous
 ```
 
 ### Example Usage
-```sh
+```console
 $ iniparse listsections readme.ini
 default
 comment
 param
 spacing
 ```
-```sh
+```console
 $ iniparse section default readme.ini
 default section starts at top
 default section can also be explicitly defined
 sections do not need to be continuous
 ```
-```sh
+```console
 $ iniparse section comment readme.ini
 comments are not printed
 ```
-```sh
+```console
 $ iniparse section param readme.ini
 param=value
 
 $ iniparse parameter param param readme.ini
 value
 ```
-```sh
+```console
 $ iniparse section spacing readme.ini
 leading and trailing whitespace is removed
 ```
